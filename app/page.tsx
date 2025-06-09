@@ -1,103 +1,157 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { Eye, EyeOff, Loader } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.email) newErrors.email = "L'email est requis";
+    if (!formData.password) newErrors.password = "Le mot de passe est requis";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    setIsLoading(true);
+    setErrors({});
+    try {
+      const response = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
+      });
+
+      if (!response?.ok) {
+        console.log(response);
+        if (response?.error?.includes("Adresse E-mail incorrect")) {
+          toast.error("Adresse E-mail incorrect", {
+            style: { color: "#EF4444" },
+            position: "top-right",
+          });
+        }
+        if (response?.error?.includes("Mot de passe incorrect")) {
+          toast.error("Mot de passe incorrect", {
+            style: { color: "#EF4444" },
+            position: "top-right",
+          });
+        }
+        if (
+          response?.error?.includes(
+            "Vous n'êtes pas autorisé à accéder à cette application"
+          )
+        ) {
+          toast.error(
+            "Vous n'êtes pas autorisé à accéder à cette application",
+            {
+              style: { color: "#EF4444" },
+              position: "top-right",
+            }
+          );
+        }
+      } else {
+        toast.success("Connexion réussie !", {
+          style: { color: "#10B981" },
+          position: "top-right",
+        });
+        setTimeout(() => router.push("/dashboard"), 2000);
+      }
+    } catch (error) {
+      setErrors({ submit: "Erreur lors de la connexion" });
+      toast.error(
+        error instanceof Error ? error.message : "Une erreur est survenue",
+        { style: { color: "#EF4444" }, position: "top-right" }
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-[calc(100vh-100px)] bg-[#FAFAFA] flex items-center justify-center p-4">
+      <div className="w-full max-w-[450px] bg-white rounded-[10px] shadow-lg p-8">
+        <div className="flex items-center justify-center gap-4 mb-8">
+          <h2 className="text-2xl font-bold text-black/70">Senthales</h2>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        {errors.submit && (
+          <div className="mb-4 p-3 bg-red-100 text-red-600 rounded-[10px]">
+            {errors.submit}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="block text-sm font-medium text-black/60 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
+              className={`w-full px-4 py-2 border ${
+                errors.email ? "border-red-500" : "border-gray-200"
+              } rounded-[10px] focus:outline-none focus:border-[#FFCD00]`}
+              placeholder="Entrez votre email"
+            />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+            )}
+          </div>
+          <div className="relative">
+            <label className="block text-sm font-medium text-black/60 mb-2">
+              Mot de passe
+            </label>
+            <input
+              type={isPasswordVisible ? "text" : "password"}
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              className={`w-full px-4 py-2 border ${
+                errors.password ? "border-red-500" : "border-gray-200"
+              } rounded-[10px] focus:outline-none focus:border-[#FFCD00]`}
+              placeholder="Entrez votre mot de passe"
+            />
+            <button
+              type="button"
+              onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+              className="absolute right-4 top-9 cursor-pointer text-gray-500 hover:text-gray-700"
+            >
+              {isPasswordVisible ? <Eye size={22} /> : <EyeOff size={22} />}
+            </button>
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="w-full flex cursor-pointer items-center justify-center bg-[#FFCD00] text-black px-4 py-2 rounded-[10px] font-medium hover:bg-black hover:text-[#FFCD00] transition-colors duration-300 mt-4"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader className="animate-spin" size={20} />
+            ) : (
+              "Se connecter"
+            )}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
