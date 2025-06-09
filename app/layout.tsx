@@ -15,9 +15,46 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "senthales",
-  description: "Tableau de bord administrateur Senthales pour la gestion de notre boutique en ligne",
+  description:
+    "Tableau de bord administrateur Senthales pour la gestion de notre boutique en ligne",
   icons: {
     icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
+
+  authors: [{ name: "Senthales" }],
+  creator: "Senthales",
+  publisher: "Senthales",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    url: "https://manage.senthales.com",
+    siteName: "Senthales",
+    title: "Senthales - Tableau de bord administrateur",
+    description:
+      "Tableau de bord administrateur Senthales pour la gestion de notre boutique en ligne",
+    images: [
+      {
+        url: "/favicon.png",
+        width: 1200,
+        height: 630,
+        alt: "Senthales - Tableau de bord administrateur",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Senthales - Tableau de bord administrateur",
+    description:
+      "Tableau de bord administrateur Senthales pour la gestion de notre boutique en ligne",
+    images: ["/favicon.png"],
+    creator: "Senthales",
   },
 };
 
