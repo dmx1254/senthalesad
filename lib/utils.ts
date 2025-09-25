@@ -428,56 +428,22 @@ export const categories: Category[] = [
     ],
   },
   {
-    id: "otshf",
-    title: "Produits locaux",
-    slug: "produits-locaux",
-    isLink: false,
-    subcat: [
-      {
-        id: "maqpx",
-        title: "Café capsule & Moulu",
-        slug: "cafe-capsule-moulu",
-      },
-    ],
-  },
-  {
-    id: "hftws",
-    title: "Divers Produits",
-    slug: "divers-produits",
-    isLink: false,
-    subcat: [
-      {
-        id: "mbzui",
-        title: "Café capsule & Moulu",
-        slug: "cafe-capsule-moulu",
-      },
-    ],
-  },
-  {
     id: "ynegv",
     title: "Surgelées & charcuterie",
     slug: "surgelees-charcuterie",
     isLink: true,
-    subcat: [
-      {
-        id: "qnxif",
-        title: "Café capsule & Moulu",
-        slug: "cafe-capsule-moulu",
-      },
-    ],
+  },
+  {
+    id: "pcawm",
+    title: "Hygiène & Beauté & Pharmacie",
+    slug: "hygiene-beaute-pharmacie",
+    isLink: true,
   },
   {
     id: "jkdve",
     title: "Boulangerie & Patisserie",
     slug: "boulangerie-patisserie",
     isLink: false,
-    subcat: [
-      {
-        id: "xywvx",
-        title: "Café capsule & Moulu",
-        slug: "cafe-capsule-moulu",
-      },
-    ],
   },
   {
     id: "jiawb",
@@ -486,7 +452,13 @@ export const categories: Category[] = [
     isLink: true,
   },
   {
-    id: "lzaqp",
+    id: "mzopa",
+    title: "Divers Produits",
+    slug: "divers-produits",
+    isLink: true,
+  },
+  {
+    id: "iazpe",
     title: "Divers Produits",
     slug: "divers-produits",
     isLink: true,

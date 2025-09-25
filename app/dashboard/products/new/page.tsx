@@ -90,7 +90,7 @@ export default function NewProductPage() {
 
   const selectedCategory = categories.find(
     (cat) => cat.slug === formData.category
-  );
+  )?.subcat;
 
   return (
     <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
@@ -186,7 +186,10 @@ export default function NewProductPage() {
                     step="1"
                     value={formData.price}
                     onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, price: e.target.value }))
+                      setFormData((prev) => ({
+                        ...prev,
+                        price: e.target.value,
+                      }))
                     }
                     required
                   />
@@ -201,7 +204,10 @@ export default function NewProductPage() {
                     type="number"
                     value={formData.stock}
                     onChange={(e) =>
-                      setFormData((prev) => ({ ...prev, stock: e.target.value }))
+                      setFormData((prev) => ({
+                        ...prev,
+                        stock: e.target.value,
+                      }))
                     }
                     required
                   />
@@ -234,30 +240,32 @@ export default function NewProductPage() {
                   </select>
                 </div>
 
-                <div className="w-full">
-                  <Label htmlFor="subCategory" className="mb-2">
-                    Sous-catégorie
-                  </Label>
-                  <select
-                    value={formData.subCategory}
-                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                      setFormData((prev) => ({
-                        ...prev,
-                        subCategory: e.target.value,
-                      }))
-                    }
-                    className="w-full border border-gray-200 shadow-sm p-1.5 rounded-[10px]"
-                    required
-                    disabled={!selectedCategory}
-                  >
-                    <option value="">Sélectionner une sous-catégorie</option>
-                    {selectedCategory?.subcat?.map((subCategory) => (
-                      <option key={subCategory.id} value={subCategory.slug}>
-                        {subCategory.title}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                {selectedCategory && (
+                  <div className="w-full">
+                    <Label htmlFor="subCategory" className="mb-2">
+                      Sous-catégorie
+                    </Label>
+                    <select
+                      value={formData.subCategory}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          subCategory: e.target.value,
+                        }))
+                      }
+                      className="w-full border border-gray-200 shadow-sm p-1.5 rounded-[10px]"
+                      required
+                      disabled={!selectedCategory}
+                    >
+                      <option value="">Sélectionner une sous-catégorie</option>
+                      {selectedCategory?.map((subCategory) => (
+                        <option key={subCategory.id} value={subCategory.slug}>
+                          {subCategory.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
 
                 <div>
                   <Label htmlFor="description" className="mb-2">
@@ -285,7 +293,11 @@ export default function NewProductPage() {
                   Annuler
                 </Button>
               </Link>
-              <Button type="submit" disabled={loading} className="cursor-pointer">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="cursor-pointer"
+              >
                 {loading ? "Création..." : "Créer le produit"}
               </Button>
             </div>
@@ -294,4 +306,4 @@ export default function NewProductPage() {
       </Card>
     </div>
   );
-} 
+}

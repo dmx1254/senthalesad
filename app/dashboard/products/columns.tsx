@@ -45,6 +45,9 @@ function ProductActions({ product }: { product: Product }) {
 
       toast.success("Produit supprimé avec succès", {
         duration: 3000,
+        style: {
+          color: "#22c55e",
+        },
         position: "top-right",
       });
 
@@ -53,7 +56,11 @@ function ProductActions({ product }: { product: Product }) {
       console.error("Erreur:", error);
       toast.error("Erreur lors de la suppression du produit", {
         duration: 3000,
+        style: {
+          color: "#ef4444",
+        },
         position: "top-right",
+        icon: "🚨",
       });
     }
   };
@@ -70,16 +77,11 @@ function ProductActions({ product }: { product: Product }) {
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => setIsEditDialogOpen(true)}
-          >
+          <DropdownMenuItem onClick={() => setIsEditDialogOpen(true)}>
             <Pencil className="mr-2 h-4 w-4" />
             Modifier
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={handleDelete}
-            className="text-red-600"
-          >
+          <DropdownMenuItem onClick={handleDelete} className="text-red-600">
             <Trash className="mr-2 h-4 w-4" />
             Supprimer
           </DropdownMenuItem>
@@ -172,4 +174,4 @@ export const columns: ColumnDef<Product>[] = [
     id: "actions",
     cell: ({ row }) => <ProductActions product={row.original} />,
   },
-]; 
+];

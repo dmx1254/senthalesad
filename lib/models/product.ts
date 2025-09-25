@@ -6,7 +6,7 @@ interface IProduct extends Document {
   image: string;
   description: string;
   category: string;
-  subCategory: string;
+  subCategory?: string;
   stock: number;
 }
 
@@ -17,7 +17,7 @@ const productSchema = new Schema(
     image: { type: String, required: true },
     description: { type: String, required: true },
     category: { type: String, required: true },
-    subCategory: { type: String, required: true },
+    subCategory: { type: String, required: false },
     stock: { type: Number, required: true },
   },
   {
