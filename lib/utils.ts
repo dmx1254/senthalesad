@@ -452,6 +452,12 @@ export const categories: Category[] = [
     isLink: true,
   },
   {
+    id: "nawpx",
+    title: "Lait",
+    slug: "lait",
+    isLink: true,
+  },
+  {
     id: "mzopa",
     title: "Divers Produits",
     slug: "divers-produits",
