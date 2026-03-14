@@ -12,16 +12,12 @@ export async function GET() {
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      // If exists but not admin, update role
-      if (existingUser.role !== "admin") {
-        await User.findByIdAndUpdate(existingUser._id, {
-          $set: { role: "admin" },
-        });
-        return NextResponse.json({
-          message: "User existed, role updated to admin",
-        });
-      }
-      return NextResponse.json({ message: "Admin already exists" });
+      await User.findByIdAndUpdate(existingUser._id, {
+        $set: { firstname: "Baïdy", lastname: "Anne", role: "admin" },
+      });
+      return NextResponse.json({
+        message: "Admin updated: Baïdy Anne",
+      });
     }
 
     // Copy profile from existing admin
