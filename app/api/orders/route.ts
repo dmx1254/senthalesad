@@ -4,8 +4,6 @@ import Order from "@/lib/models/order";
 import { options } from "@/app/api/auth/[...nextauth]/option";
 import { connectDB } from "@/lib/db/dbase";
 
-await connectDB();
-
 export async function GET(req: Request) {
   const session = await getServerSession(options);
 
@@ -14,6 +12,7 @@ export async function GET(req: Request) {
   }
 
   try {
+    await connectDB();
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");

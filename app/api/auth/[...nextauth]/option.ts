@@ -4,8 +4,6 @@ import { connectDB } from "@/lib/db/dbase";
 import bcrypt from "bcrypt";
 import User from "@/lib/models/user";
 
-connectDB();
-
 export const options: NextAuthOptions = {
   pages: {
     signIn: "/",
@@ -27,6 +25,7 @@ export const options: NextAuthOptions = {
         credentials: Record<"email" | "password", string> | undefined
       ) {
         if (credentials) {
+          await connectDB();
           const user = await User.findOne({ email: credentials.email });
           if (!user) {
             throw new Error("Adresse E-mail incorrect");

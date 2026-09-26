@@ -4,10 +4,9 @@ import { connectDB } from "@/lib/db/dbase";
 
 import bcrypt from "bcrypt";
 
-await connectDB();
-
 export async function POST(req: Request) {
   try {
+    await connectDB();
     const data = await req.json();
 
     const {

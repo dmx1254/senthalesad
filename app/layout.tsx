@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { ProviderSession } from "@/components/ProviderSession";
+import { SITE_URL } from "@/lib/site";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -14,6 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "senthales",
   description:
     "Tableau de bord administrateur Senthales pour la gestion de notre boutique en ligne",
@@ -34,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://manage.senthales.com",
+    url: SITE_URL,
     siteName: "Senthales",
     title: "Senthales - Tableau de bord administrateur",
     description:

@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db/dbase";
 import Product from "@/lib/models/product";
-connectDB();
 
 export async function GET({ params }: { params: { id: string } }) {
   try {
+    await connectDB();
     const { id } = await params;
     const product = await Product.findById(id);
 
@@ -30,6 +30,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const { id } = await params;
     const data = await req.json();
  
@@ -64,6 +65,7 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const { id } = await params;
     const product = await Product.findByIdAndDelete(id);
 

@@ -2,13 +2,12 @@ import { NextResponse } from "next/server";
 import User from "@/lib/models/user";
 import { connectDB } from "@/lib/db/dbase";
 
-connectDB();
-
 export async function DELETE(
   request: Request,
   { params }: { params: { id: string } }
 ) {
   try {
+    await connectDB();
     const { id } = await params;
     const user = await User.findByIdAndDelete(id);
 

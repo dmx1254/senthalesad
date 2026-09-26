@@ -4,8 +4,6 @@ import Order from "@/lib/models/order";
 import { options } from "@/app/api/auth/[...nextauth]/option";
 import { connectDB } from "@/lib/db/dbase";
 
-await connectDB();
-
 export async function GET() {
   const session = await getServerSession(options);
 
@@ -14,6 +12,7 @@ export async function GET() {
   }
 
   try {
+    await connectDB();
     // Statistiques des commandes par statut
     const statusStats = await Order.aggregate([
       {

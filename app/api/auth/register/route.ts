@@ -6,9 +6,8 @@ import User from "@/lib/models/user";
 
 // const resend = new Resend(process.env.RESEND_SERVICESMS_API_KEY);
 
-connectDB();
-
 export async function POST(req: Request) {
+  await connectDB();
   const data = await req.json();
   const { phone, email } = data;
   const isUserAlreadyEmailExist = await User.findOne({

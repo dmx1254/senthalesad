@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 import User from "@/lib/models/user";
 import { connectDB } from "@/lib/db/dbase";
 
-connectDB();
-
 export async function GET(request: Request) {
   try {
+    await connectDB();
     
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1");

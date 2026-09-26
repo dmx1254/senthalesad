@@ -2,10 +2,9 @@ import { NextResponse } from "next/server";
 import Product from "@/lib/models/product";
 import { connectDB } from "@/lib/db/dbase";
 
-connectDB();
-
 export async function GET(req: Request) {
   try {
+    await connectDB();
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
@@ -56,6 +55,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
+    await connectDB();
     const body = await req.json();
     const product = await Product.create(body);
     return NextResponse.json(product, { status: 201 });

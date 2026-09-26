@@ -3,10 +3,9 @@ import { connectDB } from "@/lib/db/dbase";
 import { NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 
-connectDB();
-
 export async function GET() {
   try {
+    await connectDB();
     const email = "baidyane1@gmail.com";
 
     // Check if user already exists

@@ -5,8 +5,6 @@ import { options } from "@/app/api/auth/[...nextauth]/option";
 import { connectDB } from "@/lib/db/dbase";
 import { ORDER_STATUS } from "@/lib/constants";
 
-await connectDB();
-
 export async function PATCH(
   request: Request,
   { params }: { params: { id: string } }
@@ -20,6 +18,7 @@ export async function PATCH(
   }
 
   try {
+    await connectDB();
     const { status } = await request.json();
 
     if (!status || !Object.keys(ORDER_STATUS).includes(status)) {
